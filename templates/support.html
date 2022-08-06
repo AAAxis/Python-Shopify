@@ -5,57 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<style>
-
-.container{
-  width: 50hv;
-  height: 50%;
-  background: white;
-  display: grid;
-}
-
-form{
-  background: #2d6efd;
-  display: flex;
-  flex-direction: column;
-  padding: 2vw 4vw;
-  width: 90%;
-  max-width: 600px;
-  border-radius: 10px;
-}
-
-
-form input, form textarea{
-  border: 0;
-  margin: 10px 0;
-  padding: 20px;
-  outline: none;
-  background: white;
-  font-size: 16px;
-}
-
-form button{
-  padding: 15px;
-  background: rgb(80, 80, 76);
-  color: white;
-  font-size: 18px;
-  border:  0;
-  outline: none;
-  cursor: pointer;
-  width: 150px;
-  margin: 20px auto 0;
-  border-radius: 30px;
-}
-</style>
 <body>
     <div class="container">
-        <form onsubmit="sendEmail(); reset(); return false;">
+        <form method="POST" action="/support"">
+        {% if success %}
+          <div class="alert alert-success" role="alert">
+            Your message has been sent successfully!!
+             </div>
+         {% endif %}
             <h3>GET IN TOUCH</h3>
-            <input type="text" id="name" placeholder="Your Name" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <textarea id="message" rows="4" placeholder="How can we help you?"></textarea>
+        <br>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <br>
+        <br>
+
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        <br>
+        <br>
+
+            <textarea id="message" name="message" rows="4" placeholder="How can we help you?"></textarea>
+        <br>
             <button type="submit">Send</button>
         </form>
     </div>
-
 {% endblock %}

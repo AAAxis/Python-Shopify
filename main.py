@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from flask_mail import Mail, Message
+from config import mail_username, mail_password
+
 
 
 app = Flask(__name__)
@@ -12,8 +15,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localh
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'key'
 
+
+app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = mail_username
+app.config['MAIL_PASSWORD'] = mail_password
+
+
+
+mail = Mail(app)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
+
 
 Login_manager = LoginManager()
 Login_manager.init_app(app)
@@ -22,7 +37,6 @@ Login_manager.login_view = "login"
 @Login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 
 class Item(db.Model):
@@ -71,9 +85,20 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/support')
+@app.route('/support', methods=['POST', 'GET'])
 def support():
+    if request.method == "POST":
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+
+        msg = Message(subject=f"Mail from {name}", body=f"Name: {name}\nE-Mail: {email}\n{message}", sender=mail_username, recipients=['polskoydm@gmail.com'])
+        mail.send(msg)
+        return render_template('support.html', success=True)
+
     return render_template('support.html')
+
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
