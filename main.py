@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_wtf import FlaskForm
@@ -7,6 +7,10 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message
 from config import mail_username, mail_password
+from flask import current_app
+import os
+import secrets
+
 
 
 
@@ -23,35 +27,42 @@ app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = mail_username
 app.config['MAIL_PASSWORD'] = mail_password
 
-
-
 mail = Mail(app)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
+
 
 
 Login_manager = LoginManager()
 Login_manager.init_app(app)
 Login_manager.login_view = "login"
 
-@Login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def save_images(photo):
+    hash_photo = secrets.token_urlsafe(10)
+    _, file_extention = os.path.splitext(photo.filename)
+    photo_name = hash_photo + file_extention
+    file_path = os.path.join(current_app.root_path, 'uploads/', photo_name)
+    photo.save(file_path)
+    return photo_name
 
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.String(120), default='image.jpg')
     isActive = db.Column(db.Boolean, default=True)
-    #text = db.Column(db.Text, nullable=False)
+
+    # text = db.Column(db.Text, nullable=False)
     def __repr__(self):
         return self.title
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
+
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -62,11 +73,11 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Register")
 
     def validate_username(self, username):
-
         existing_user_username = User.query.filter_by(username=username.data).first()
 
         if existing_user_username:
             raise ValidationError("That username already exists. Please choose a different one.")
+
 
 class LoginForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -76,14 +87,27 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
+
+@Login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+@app.route('/uploads/<filename>')
+def get_file(filename):
+    return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
+
+
 @app.route('/')
 def index():
-    items = Item.query.order_by(Item.price).all()
-    return render_template('index.html', data=items)
+
+    return render_template('index.html')
+
 
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/support', methods=['POST', 'GET'])
 def support():
@@ -92,12 +116,12 @@ def support():
         email = request.form.get('email')
         message = request.form.get('message')
 
-        msg = Message(subject=f"Mail from {name}", body=f"Name: {name}\nE-Mail: {email}\n{message}", sender=mail_username, recipients=['polskoydm@gmail.com'])
+        msg = Message(subject=f"Mail from {name}", body=f"Name: {name}\nE-Mail: {email}\n{message}",
+                      sender=mail_username, recipients=['polskoydm@gmail.com'])
         mail.send(msg)
         return render_template('support.html', success=True)
 
     return render_template('support.html')
-
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -140,20 +164,20 @@ def register():
 
 @app.route('/create', methods=['POST', 'GET'])
 def create():
-    if request.method == "POST":
-        title = request.form['title']
-        price = request.form['price']
+    if request.method=="POST":
+        title = request.form.get('title')
+        price = request.form.get('price')
+        photo = save_images(request.files.get('photo'))
 
-        item = Item(title=title, price=price)
+        item = Item(title=title, price=price, image=photo)
+        db.session.add(item)
+        db.session.commit()
+        return redirect('/')
+    return render_template('create.html')
 
-        try:
-            db.session.add(item)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "False"
-    else:
-        return render_template('create.html')
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
