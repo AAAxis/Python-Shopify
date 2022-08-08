@@ -1,18 +1,17 @@
-from flask import Flask, render_template, request, redirect, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
-from flask_bcrypt import Bcrypt
-from flask_mail import Mail, Message
-from config import mail_username, mail_password
-from flask import current_app
 import os
 import secrets
 
+from flask import Flask, render_template, request, redirect, send_from_directory
+from flask import current_app
+from flask_bcrypt import Bcrypt
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+from flask_mail import Mail, Message
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
 
-
+from config import mail_username, mail_password
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost/flasksql'
@@ -41,7 +40,7 @@ def save_images(photo):
     hash_photo = secrets.token_urlsafe(10)
     _, file_extention = os.path.splitext(photo.filename)
     photo_name = hash_photo + file_extention
-    file_path = os.path.join(current_app.root_path, 'uploads/', photo_name)
+    file_path = os.path.join(current_app.root_path, 'static/images', photo_name)
     photo.save(file_path)
     return photo_name
 
@@ -93,15 +92,16 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/uploads/<filename>')
-def get_file(filename):
-    return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
+@app.route('/static/images/<filename>')
+def display_image(filename):
+    return send_from_directory("static", filename=filename)
+
 
 
 @app.route('/')
 def index():
-
-    return render_template('index.html')
+    items = Item.query.all()
+    return render_template("index.html", data=items)
 
 
 @app.route('/about')
@@ -174,8 +174,6 @@ def create():
         db.session.commit()
         return redirect('/')
     return render_template('create.html')
-
-
 
 
 

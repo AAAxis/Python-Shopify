@@ -5,25 +5,27 @@
 {% endblock %}
 
 {% block body %}
+<div class="container" id="top">
+		<nav class="navbar navbar-light bg-light">
+			<span class="navbar-brand mb-0 h1">Products</span>
 
-    <div class="container">
-        <div class="card-deck mb-3 text-center">
-      {% for el in data %}
-       <div class="card mb-4 shadow-sm">
-          <div class="card-header">
-            <h4 class="my-0 fw-normal">{{ el.title }}</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">{{ el.price }}<small class="text-muted fw-light">New Shekel</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>10 users included</li>
-              <li>2 GB of storage</li>
-              <li>Email support</li>
-              <li>Help center access</li>
-            </ul>
-            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Buy Item</button>
-          </div>
-      {% endfor %}
-    </div>
+		</nav>
+				<div class="base" id="base">
+					{% for el in data %}
+					<br>
+						<div class="card needspace" style="width: 18rem;">
+							<div class="card-body">
+			    				<h5 class="card-title">{{ el.title }}</h5>
+			  				</div>
 
+								<div>
+									<img width="286" height="286" src="{{ url_for('display_image', filename='/'+el.image) }}">
+								</div>
+			  				<ul class="list-group list-group-flush">
+			    				<li class="list-group-item">Price: {{ el.price }}</li>
+			  				</ul>
+							<button type="button" class="w-100 btn btn-lg btn-outline-primary">Buy Item</button>
+						</div>
+					{% endfor %}
+				</div>
 {% endblock %}
