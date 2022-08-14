@@ -1,31 +1,62 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
 <title>Online Store</title>
 {% endblock %}
 
 {% block body %}
-<div class="container" id="top">
-		<nav class="navbar navbar-light bg-light">
-			<span class="navbar-brand mb-0 h1">Products</span>
+  <header class="header">
+  <div class="container header__top">
+    <div class="header__logo">
+      <h1 class="header__title">
+        <span class="header__subtitle">Pricing</span>
+      </h1>
+    </div>
 
-		</nav>
-				<div class="base" id="base">
-					{% for el in data %}
-					<br>
-						<div class="card needspace" style="width: 18rem;">
-							<div class="card-body">
-			    				<h5 class="card-title">{{ el.title }}</h5>
-			  				</div>
+<div class="grid" id="grid">
 
-								<div>
-									<img width="286" height="286" src="{{ url_for('display_image', filename='/'+el.image) }}">
-								</div>
-			  				<ul class="list-group list-group-flush">
-			    				<li class="list-group-item">Price: {{ el.price }}</li>
-			  				</ul>
-							<button type="button" class="w-100 btn btn-lg btn-outline-primary">Buy Item</button>
-						</div>
-					{% endfor %}
-				</div>
+{% for el in data %}
+<div class="column">
+<div class="card">
+      <img  class="card__image" width="286" height="286" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details">
+      <div class="card__info">
+        <h4 class="card__title">{{ el.title }}</h4>
+        <p class="card__text">Sale</p>
+        <p class="card__price">{{ el.price }}</p>
+        <button class="card__btn add-to-cart" data-id="{{ el.id }}">Add to Cart</button>
+      </div>
+    </div>
+</div>
+{% endfor %}
+<div class="column">
+
+      <h1>Cart</h1>
+
+    <div class="header__cart">
+
+          <div id="shopping-cart" class="shopping-cart-container">
+            <table id="cart-content">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+              <br>
+              <a href="#" id="clear-cart" class="header__cart-btn"><button>Clear Cart</button></a>
+            <button class="header__cart-btn" id="toggle-cart-btn"> Your Cart <a style="text-decoration: none;" class="total-container" id="total-price"></a></button>
+
+
+
+          </div>
+    </div>
+  </div>
+  </div>
+</div>
+</header>
 {% endblock %}

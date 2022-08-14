@@ -1,0 +1,40 @@
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+}
+
+td, th {
+  border: 1px solid black;
+  text-align: left;
+  padding: 7px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+
+.container {
+  padding: 2px 16px;
+}
+
+.grid {margin: 0 -5px;}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 7px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+
+

@@ -13,6 +13,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 
 from config import mail_username, mail_password
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost/flasksql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -87,6 +88,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
+
 @Login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -97,11 +99,6 @@ def display_image(filename):
     return send_from_directory("static", filename=filename)
 
 
-
-@app.route('/')
-def index():
-    items = Item.query.all()
-    return render_template("index.html", data=items)
 
 
 @app.route('/about')
@@ -135,11 +132,10 @@ def login():
                 return redirect('/dashboard')
     return render_template('login.html', form=form)
 
-
-@app.route('/dashboard', methods=['POST', 'GET'])
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
+@app.route('/')
+def index():
+    items = Item.query.all()
+    return render_template("index.html", data=items)
 
 
 @app.route('/logout', methods=['POST', 'GET'])
@@ -162,18 +158,38 @@ def register():
 
     return render_template('register.html', form=form)
 
-@app.route('/create', methods=['POST', 'GET'])
-def create():
+
+@app.route('/dashboard/<int:id>/delete')
+def itemdelete(id):
+    item = Item.query.get_or_404(id)
+    try:
+        db.session.delete(item)
+        db.session.commit()
+        return redirect('/dashboard')
+    except:
+        return "Error"
+
+    return render_template("dashboard.html", data=item)
+
+
+
+@app.route('/dashboard', methods=['POST', 'GET'])
+def dashboard():
+    items = Item.query.all()
     if request.method=="POST":
         title = request.form.get('title')
         price = request.form.get('price')
         photo = save_images(request.files.get('photo'))
 
+    try:
         item = Item(title=title, price=price, image=photo)
         db.session.add(item)
         db.session.commit()
-        return redirect('/')
-    return render_template('create.html')
+        return redirect('/dashboard')
+
+    except: "Error"
+
+    return render_template('dashboard.html', data=items)
 
 
 

@@ -1,11 +1,43 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>Dashboard</title>
+<title>Add Item</title>
 {% endblock %}
 
 {% block body %}
-    <h1>Hello you are logged in</h1>
-    <a href="/logout">Press here to logout</a>
+<div class="container">
+    <h1>Add Item</h1>
+    <form class="col s12" method='POST' enctype="multipart/form-data">
+        <input type="file" name="photo" class ="form-control" autocomplate="off" required><br>
+        <input type="text" class="form-control" name="title" id="title" placeholder="Add Name"><br>
+        <input type="number" class="form-control" name="price" id="price" placeholder="Add Price"><br>
+        <button class="btn btn-outline-primary" type="submit">Add Item</button>
+    </form>
+</div>
 
+<br>
+
+<h2>Shop Data</h2>
+
+<table>
+
+    <tr>
+    <th>ID</th>
+    <th>Image</th>
+    <th>Price</th>
+    <th>Item</th>
+        <th>Action</th>
+  </tr>
+
+{% for el in data %}
+  <tr>
+    <td>{{ el.id }}</td>
+      <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details"></td>
+      <td>{{ el.price }}</td>
+    <td>{{ el.title }}</td>
+    <td><a href="/dashboard/{{ el.id }}/delete" class="btn btn-danger">Delete</a></td>
+    </tr>
+{% endfor %}
+
+</table>
 {% endblock %}
