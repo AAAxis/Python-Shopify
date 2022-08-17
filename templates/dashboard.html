@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>Add Item</title>
+<title>Edit Page</title>
 {% endblock %}
 
 {% block body %}
+
 <div class="container">
-    <h1>Add Item</h1>
+    <h1>Edit Page</h1>
     <form class="col s12" method='POST' enctype="multipart/form-data">
         <input type="file" name="photo" class ="form-control" autocomplate="off" required><br>
         <input type="text" class="form-control" name="title" id="title" placeholder="Add Name"><br>
+        <input type="text" class="form-control" name="link" id="link" placeholder="Add Link"><br>
         <input type="number" class="form-control" name="price" id="price" placeholder="Add Price"><br>
         <button class="btn btn-outline-primary" type="submit">Add Item</button>
     </form>
@@ -26,6 +28,8 @@
     <th>Image</th>
     <th>Price</th>
     <th>Item</th>
+        <th>Link</th>
+
         <th>Action</th>
   </tr>
 
@@ -35,6 +39,8 @@
       <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details"></td>
       <td>{{ el.price }}</td>
     <td>{{ el.title }}</td>
+      <td>{{ el.link }}</td>
+
     <td><a href="/dashboard/{{ el.id }}/delete" class="btn btn-danger">Delete</a></td>
     </tr>
 {% endfor %}

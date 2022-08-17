@@ -1,8 +1,9 @@
 import os
 import secrets
+import paypalrestsdk
 
 from flask import Flask, render_template, request, redirect, send_from_directory
-from flask import current_app
+from flask import current_app, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_mail import Mail, Message
@@ -10,7 +11,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
-
 from config import mail_username, mail_password
 
 
@@ -27,15 +27,22 @@ app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = mail_username
 app.config['MAIL_PASSWORD'] = mail_password
 
+
 mail = Mail(app)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
 
+paypalrestsdk.configure({
+  "mode": "sandbox", # sandbox or live
+  "client_id": "ASBMdP1w5qLE8NnhEhAzef_X_UcsQy68O4zJHgQmVS5VNHrXpB5J9tqdO7ncy37OJ1EM0hgYeig0DpEG",
+  "client_secret": "EEfOYfSChN6hlX17kYSMrszkLd1QwBY7AKoAoxrF_aYHcNbBQpBCL_z7oCFoLHfRq-F7WEvcCL7wqxTA" })
+
 
 Login_manager = LoginManager()
 Login_manager.init_app(app)
 Login_manager.login_view = "login"
+
 
 def save_images(photo):
     hash_photo = secrets.token_urlsafe(10)
@@ -51,9 +58,10 @@ class Item(db.Model):
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     image = db.Column(db.String(120), default='image.jpg')
+    link = db.Column(db.String(100), nullable=False)
     isActive = db.Column(db.Boolean, default=True)
 
-    # text = db.Column(db.Text, nullable=False)
+
     def __repr__(self):
         return self.title
 
@@ -132,10 +140,8 @@ def login():
                 return redirect('/dashboard')
     return render_template('login.html', form=form)
 
-@app.route('/')
-def index():
-    items = Item.query.all()
-    return render_template("index.html", data=items)
+
+
 
 
 @app.route('/logout', methods=['POST', 'GET'])
@@ -171,7 +177,18 @@ def itemdelete(id):
 
     return render_template("dashboard.html", data=item)
 
+@app.route('/', methods=['POST', 'GET'])
+def index():
+    items = Item.query.all()
+    if request.method == "POST":
+        price = request.form.get('total-price')
+        try:
+         return price
 
+        except: "Error"
+
+
+    return render_template("index.html", data=items)
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
@@ -180,9 +197,10 @@ def dashboard():
         title = request.form.get('title')
         price = request.form.get('price')
         photo = save_images(request.files.get('photo'))
+        link = request.form.get('link')
 
     try:
-        item = Item(title=title, price=price, image=photo)
+        item = Item(title=title, price=price, image=photo, link=link)
         db.session.add(item)
         db.session.commit()
         return redirect('/dashboard')

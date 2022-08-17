@@ -1,9 +1,14 @@
 
 table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 50%;
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+    width:100%
 }
+
+
 
 td, th {
   border: 1px solid black;
@@ -16,25 +21,24 @@ tr:nth-child(even) {
 }
 
 
+  .container {
+      display: grid;
+      flex-direction: column;
+  }
 
-.container {
-  padding: 2px 16px;
-}
+  .base{
+  justify-content:center;
+  align-items:center;
+  display:flex;
+  margin: 1rem;
+  }
 
-.grid {margin: 0 -5px;}
+  .card{
+  margin: 1rem;
+  }
 
-.column {
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-}
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 7px;
-  text-align: center;
-  background-color: #f1f1f1;
-}
-
+  svg{
+  width:20px;
+  }
 
 
