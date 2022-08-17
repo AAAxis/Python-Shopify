@@ -1,4 +1,4 @@
-alchemy==20.5
+palchemy==20.5
 alembic==1.8.1
 asgiref==3.5.2
 bcrypt==3.2.2

@@ -1,6 +1,6 @@
 import os
 import secrets
-import paypalrestsdk
+
 
 from flask import Flask, render_template, request, redirect, send_from_directory
 from flask import current_app, jsonify
@@ -31,12 +31,6 @@ app.config['MAIL_PASSWORD'] = mail_password
 mail = Mail(app)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
-
-
-paypalrestsdk.configure({
-  "mode": "sandbox", # sandbox or live
-  "client_id": "ASBMdP1w5qLE8NnhEhAzef_X_UcsQy68O4zJHgQmVS5VNHrXpB5J9tqdO7ncy37OJ1EM0hgYeig0DpEG",
-  "client_secret": "EEfOYfSChN6hlX17kYSMrszkLd1QwBY7AKoAoxrF_aYHcNbBQpBCL_z7oCFoLHfRq-F7WEvcCL7wqxTA" })
 
 
 Login_manager = LoginManager()
