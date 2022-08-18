@@ -1,2 +1,1 @@
-web: python main.py
-port = int(os.environ.get('PORT', 5000))
+web gunicorn main:app
