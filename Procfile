@@ -1,1 +1,2 @@
-web:gunicorn main:app --preload -b 0.0.0.0:5000
+web:gunicorn app.main:app
+heroku ps:scale web=0
