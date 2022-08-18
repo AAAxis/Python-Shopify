@@ -4,3 +4,8 @@ joblib==1.1.0
 nltk==3.7
 regex==2022.8.17
 tqdm==4.64.0
+Flask==2.0.1
+itsdangerous==2.0.1
+Jinja2==3.0.1
+MarkupSafe==2.0.1
+Werkzeug==2.0.1
