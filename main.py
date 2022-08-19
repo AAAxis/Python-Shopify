@@ -1,9 +1,8 @@
 import os
 import secrets
 
-
 from flask import Flask, render_template, request, redirect, send_from_directory
-from flask import current_app
+from flask import current_app, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_mail import Mail, Message
@@ -15,8 +14,7 @@ from config import mail_username, mail_password
 
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost/flasksql'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost/flasksql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'key'
 
@@ -206,5 +204,5 @@ def dashboard():
 
 
 
-if __name__ == "__app__":
+if __name__ == "__main__":
     app.run(debug=True)
