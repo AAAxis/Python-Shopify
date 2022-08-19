@@ -34,6 +34,7 @@ lockfile==0.12.2
 Mako==1.2.1
 Markdown==3.4.1
 MarkupSafe==2.1.1
+ordereddict==1.1
 paypalrestsdk==1.13.1
 Pillow==9.2.0
 psycopg==3.0.16
