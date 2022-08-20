@@ -16,7 +16,7 @@ from config import mail_username, mail_password
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ppnobtlfdccrlm:3120883c92ff370cbeb77a7f9b9280dc71e0c68ba1ecbd912f8ede1e27cd66a2@ec2-52-49-120-150.eu-west-1.compute.amazonaws.com:5432/dd2h6aj191qqvc'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ppnobtlfdccrlm:3120883c92ff370cbeb77a7f9b9280dc71e0c68ba1ecbd912f8ede1e27cd66a2@ec2-52-49-120-150.eu-west-1.compute.amazonaws.com:5432/dd2h6aj191qqvc'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost:5433/Flasksql'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
