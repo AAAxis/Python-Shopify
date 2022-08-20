@@ -14,8 +14,8 @@ from config import mail_username, mail_password
 
 
 app = Flask(__name__)
-DATABASE_DEFAULT = 'postgresql://postgresql://postgres:postgresql@localhost:5433/Flasksql'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', DATABASE_DEFAULT)
+
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost:5433/Flasksql'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
