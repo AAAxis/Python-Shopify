@@ -20,25 +20,39 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
+.center {
+margin: auto;
+width: 85%;
+padding: 40px;
+}
 
-  .container {
-      display: grid;
-      flex-direction: column;
-  }
 
-  .base{
-  justify-content:center;
-  align-items:center;
-  display:flex;
-  margin: 1rem;
-  }
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
 
-  .card{
-  margin: 1rem;
-  }
+.price {
+  color: grey;
+  font-size: 22px;
+}
 
-  svg{
-  width:20px;
-  }
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
 
+.card button:hover {
+  opacity: 0.7;
+}
 
