@@ -7,15 +7,17 @@
 {% block body %}
 <div class="center">
 <h1>Login Page</h1>
+     <a style="text-decoration: none;" class="w3-bar-item w3-button" href="/register">Dont have an account? Sign Up</a>
+      <br><br>
     <form method="POST" action="">
 
         {{ form.hidden_tag() }}
         {{ form.username }}
         {{ form.password }}
         <br><br>
-        {{ form.submit }}
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
     </form>
     <br>
-    <a href="/register">Dont have an account? Sign Up</a>
+
 </div>
 {% endblock %}
