@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Card View</title>
+{% endblock %}
+
+{% block body %}
+    {% for el in data %}
+<div class="card-columns ">
+<div class="card-view">
+
+          <p class="card-text"> <h3>{{ el.title }}</h3>
+
+          <img  style="width:500px; height:450px;" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details">
+          <p style="center" >Rent from {{ el.price }} shekel</p>
+            <p style="center" >{{ el.text }}</p>
+    <button class="center" onclick="window.location.href ='https://wa.me/+972535660122/?text=Hello';">Booking</button></div>
+
+
+</div>
+
+
+<br>
+   {% endfor %}
+
+{% endblock %}

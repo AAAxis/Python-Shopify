@@ -6,11 +6,10 @@
 
 {% block body %}
 <div class="center">
-<h1>Login Page</h1>
-     <a style="text-decoration: none;" class="w3-bar-item w3-button" href="/register">Dont have an account? Sign Up</a>
-      <br><br>
-    <form method="POST" action="">
-
+   <form method="POST" action="">
+       <h1>Login Page</h1>
+        <a style="text-decoration: none;" class="logo" href="/register">Dont have an account? Sign Up</a>
+       <br><br>
         {{ form.hidden_tag() }}
         {{ form.username }}
         {{ form.password }}

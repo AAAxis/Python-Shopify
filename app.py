@@ -16,13 +16,11 @@ from config import mail_username, mail_password
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ppnobtlfdccrlm:3120883c92ff370cbeb77a7f9b9280dc71e0c68ba1ecbd912f8ede1e27cd66a2@ec2-52-49-120-150.eu-west-1.compute.amazonaws.com:5432/dd2h6aj191qqvc'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost:5433/Flasksql'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+#ptapp.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgresql@localhost:5433/Flasksql'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'key'
 
-DATABASE_URL = os.environ.get("DATABASE_URL").replace("postgres", "postgresql")
 
 app.config['MAIL_SERVER'] = 'smtp-mail.outlook.com'
 app.config['MAIL_PORT'] = 587
@@ -56,7 +54,7 @@ class Item(db.Model):
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     image = db.Column(db.String(120), default='image.jpg')
-    link = db.Column(db.String(100), nullable=False)
+    text = db.Column(db.String(100), nullable=False)
     isActive = db.Column(db.Boolean, default=True)
 
 
@@ -112,20 +110,6 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/support', methods=['POST', 'GET'])
-def support():
-    if request.method == "POST":
-        name = request.form.get('name')
-        email = request.form.get('email')
-        message = request.form.get('message')
-
-        msg = Message(subject=f"Mail from {name}", body=f"Name: {name}\nE-Mail: {email}\n{message}",
-                      sender=mail_username, recipients=['polskoydm@gmail.com'])
-        mail.send(msg)
-        return render_template('support.html', success=True)
-
-    return render_template('support.html')
-
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -178,15 +162,25 @@ def itemdelete(id):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     items = Item.query.all()
-    if request.method == "POST":
-        price = request.form.get('total-price')
-        try:
-         return price
-
-        except: "Error"
-
 
     return render_template("index.html", data=items)
+
+
+@app.route('/about', methods=['POST', 'GET'])
+def support():
+    if request.method == "POST":
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+
+        msg = Message(subject=f"Mail from {name}", body=f"Name: {name}\nE-Mail: {email}\n{message}",
+                      sender=mail_username, recipients=['polskoydm@gmail.com,Jiliyahaifa@gmail.com'])
+        mail.send(msg)
+        return render_template('about.html', success=True)
+
+    return render_template('about.html')
+
+
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
@@ -195,10 +189,10 @@ def dashboard():
         title = request.form.get('title')
         price = request.form.get('price')
         photo = save_images(request.files.get('photo'))
-        link = request.form.get('link')
+        text = request.form.get('text')
 
     try:
-        item = Item(title=title, price=price, image=photo, link=link)
+        item = Item(title=title, price=price, image=photo, text=text)
         db.session.add(item)
         db.session.commit()
         return redirect('/dashboard')
@@ -208,6 +202,12 @@ def dashboard():
     return render_template('dashboard.html', data=items)
 
 
+@app.route('/product/<id>')
+def product(id):
+    item = Item.query.filter_by(id=id)
+
+
+    return render_template('view-product.html', data=item)
 
 if __name__ == "__main__":
     app.run(debug=True)

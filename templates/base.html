@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html>
-
+<head>
 {% block title %} {% endblock %}
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="../static/style.css">
 
-
+<script src="https://kit.fontawesome.com/54c9da8e8c.js" crossorigin="anonymous"></script>
      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 
 <body>
 
-<header class="w3-top w3-bar w3-theme">
+<div class="header">
+  <a href="/" class="logo">CARAVAN ISRAEL</a>
+  <div class="header-right">
+          <a href="tel:+972535660122">Contact</a>
+    <a href="/login">Log In</a>
+    <a href="/about">About</a>
+  </div>
+</div>
 
-<h2>
-    <a style=" text-decoration: none;" class="w3-bar-item w3-button" href="/">Food Delivery</a>
-    </h2>
-    <a style="text-decoration: none;" class="w3-bar-item w3-button" href="/about">About us</a>
-     <a style="text-decoration: none;" class="w3-bar-item w3-button" href="/login">Log In</a>
-</header>
-
-<br><br>
 
     {% block body %}
 

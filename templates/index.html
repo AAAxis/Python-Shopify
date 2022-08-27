@@ -2,26 +2,28 @@
 
 
 {% block title %}
-<title>Online Store</title>
+<title>Caravan for Rent</title>
 {% endblock %}
 
 {% block body %}
-<div class="center">
 
  <div class="card-columns">
     {% for el in data %}
-<div class="card bg-light">
-      <div class="card-body">
+     <div class="card">
           <p class="card-text"> <h3>{{ el.title }}</h3>
-          <img  style="width:150px; height:150px;" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details">
-          <p style="center" >Price {{ el.price }} shekel</p>    </div>
+          <img   style="width:19rem; height:20rem; center;" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details">
+          <h5 >Rent from {{ el.price }} shekel</h5>
 
-          <button class="btn btn-primary stretched-link" onclick="window.location.href ='{{el.link}}';">Add to Cart</button>
+              <button class="center" onclick="window.location.href ='/product/{{el['id']}}';"onclick="window.location.href ='/product/{{el['id']}}';">View</button>
+     </div>
+     <br><br><br>
 
-</div>
-<br>
+
+
+
    {% endfor %}
+   </div>
 
-</div>
-    </div>
+
+
 {% endblock %}

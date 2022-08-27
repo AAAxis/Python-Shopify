@@ -6,8 +6,35 @@
 
 {% block body %}
 <div class="center">
-    <h1>About Store</h1>
-     <a style="text-decoration: none;" class="w3-bar-item w3-button" href="/support">Contact Support</a>
+
+    <div style="background-image: url('/static/images//BG8.png');" >
+    <div class="center">
+        <form  method="POST" action="/about">
+        {% if success %}
+          <div class="alert alert-success" role="alert">
+            Your message has been sent successfully!!
+             </div>
+         {% endif %}
+            <h3 style="color:white;" >GET IN TOUCH</h3>
+        <br>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <br>
+        <br>
+
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        <br>
+        <br>
+
+            <textarea id="message" name="message" rows="4" placeholder="How can we help you?"></textarea>
+        <br>
+
+        <button class="btn btn-primary" type="submit">Send</button>
+
+        </form>
+<br><br><br>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}
