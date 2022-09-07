@@ -5,10 +5,16 @@ table {
     letter-spacing: 1px;
     font-family: sans-serif;
     font-size: .8rem;
-    width:100%
+    display: inline-block;
 }
 
-
+.background {
+  background-image: url('/static/images//BG1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-height:20%;
+}
 
 td, th {
   border: 1px solid black;
@@ -20,60 +26,41 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
-form {
-
- margin: auto;
-}
 
 body {
     text-align: center;
 }
+
 form {
-    padding-top: 4rem;
     display: inline-block;
 }
 
-.center {
-margin: auto;
-}
 
 
-.card-view {
-background-color: #f1f1f1;
-  max-width:500px;
-  text-align: center;
-  font-family: arial;
-
-}
-
-.card {
-background-color: #f1f1f1;
-  max-width:20rem;
-  max-height:30rem;
-  text-align: center;
-  font-family: arial;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-}
 
 .card-columns {
-padding: 5rem;
+
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
+margin-bottom:4em;
 
 }
 
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+
+.card-button {
+  border: none;
+  outline: 0;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 50%;
+  font-size: 18px;
 }
 
-.price {
-  color: grey;
-  font-size: 22px;
-}
 
-.card-view button {
+.card-button-top {
   border: none;
   outline: 0;
   padding: 12px;
@@ -81,22 +68,13 @@ justify-content: center;
   background-color: #000;
   text-align: center;
   cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-  width:400px;
-}
 
-
-.card button {
-  border: none;
-  outline: 0;
-  padding: 12px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
   font-size: 18px;
+  position: absolute;
+  bottom: 10px;
+  right: 90px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .card button:hover {
@@ -104,21 +82,6 @@ justify-content: center;
 }
 
 
-div {
-  background-image: url('img_girl.jpg');
-  background-repeat: no-repeat;
-
-  background-size: cover;
-}
-
-
-
-* {box-sizing: border-box;}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 .header {
   overflow: hidden;
@@ -168,3 +131,75 @@ body {
 
 
 
+/* The grid: Four equal columns that floats next to each other */
+.column {
+
+  float: center;
+  width: 25%;
+  padding:5px;
+}
+
+
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 319px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  margin-bottom:4em;
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #32363b;
+  color: white;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: #32363b;
+  color: white;
+  transform: rotateY(180deg);
+}

@@ -5,60 +5,38 @@
 {% endblock %}
 
 {% block body %}
-<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
-<script>
-    const client = filestack.init(AxEenqdDFQqKSqZHpZNspz);
-client.picker().open();
-{
-   "filesUploaded":[
-      {
-         "filename":"myfile.png",
-         "handle":"AFrHW1QRsWxmu5ZLU2qg",
-         "mimetype":"image/png",
-         "originalPath":"picker_transformation.png",
-         "size":1277297,
-         "source":"local_file_system",
-         "url":"https://cdn.filestackcontent.com/AFrHW1QRsWxmu5ZLU2qg",
-         "uploadId":"cfcc198e63b7328c17f09f1af519fcdf",
-         "originalFile":{
-            "name":"myfile",
-            "type":"image/png",
-            "size":1277297
-         },
-         "status":"Stored"
-      }
-   ],
-   "filesFailed":[
 
-   ]
-}
-</script>
+<br><br><br>
 
-
-<div class="container">
-
-    <form class="col s12" method='POST' enctype="multipart/form-data">
+    <form style="width:70%" method='POST' enctype="multipart/form-data">
         <h2>Edit Page</h2>
         <br>
-        <input type="file" name="photo" class ="form-control" autocomplate="off" required><br>
+
+         <input type="file" name="photo1" id="photo1" class ="form-control" required><br>
+         <input type="file" name="photo2" id="photo2" class ="form-control"><br>
+         <input type="file" name="photo3" id="photo3" class ="form-control"><br>
+         <input type="file" name="photo4" id="photo4" class ="form-control"><br>
         <input type="text" class="form-control" name="title" id="title" placeholder="Add Name"><br>
         <input type="text" class="form-control" name="text" id="text" placeholder="Add Description"><br>
         <input type="number" class="form-control" name="price" id="price" placeholder="Add Price"><br>
         <button class="btn btn-outline-primary" type="submit">Add Item</button>
     </form>
 
-</div>
 
-<br>
 
-<div class="container">
+<br><br><br>
+
+
 <h2>Shop Data</h2>
 <br>
-<table>
+<table style="width:70%">
 
     <tr>
     <th>ID</th>
-    <th>Image</th>
+    <th>Image1</th>
+         <th>Image2</th>
+         <th>Image3</th>
+         <th>Image4</th>
     <th>Price</th>
     <th>Item</th>
         <th>Description</th>
@@ -69,7 +47,10 @@ client.picker().open();
 {% for el in data %}
   <tr>
     <td>{{ el.id }}</td>
-      <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details"></td>
+      <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image1) }}" alt="Details"></td>
+            <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image2) }}" alt="Details"></td>
+            <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image3) }}" alt="Details"></td>
+            <td><img width="40" height="40" src="{{ url_for('display_image', filename='/'+el.image4) }}" alt="Details"></td>
       <td>{{ el.price }}</td>
     <td>{{ el.title }}</td>
       <td>{{ el.text }}</td>
@@ -79,6 +60,6 @@ client.picker().open();
 {% endfor %}
 
 </table>
-    </div>
 
+<br><br><br>
 {% endblock %}

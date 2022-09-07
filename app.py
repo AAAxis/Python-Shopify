@@ -53,7 +53,10 @@ class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    image = db.Column(db.String(120), default='image.jpg')
+    image1 = db.Column(db.String(120), default='image1.jpg')
+    image2 = db.Column(db.String(120), default='image2.jpg')
+    image3 = db.Column(db.String(120), default='image3.jpg')
+    image4 = db.Column(db.String(120), default='image4.jpg')
     text = db.Column(db.String(100), nullable=False)
     isActive = db.Column(db.Boolean, default=True)
 
@@ -105,11 +108,6 @@ def display_image(filename):
 
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -159,14 +157,14 @@ def itemdelete(id):
 
     return render_template("dashboard.html", data=item)
 
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     items = Item.query.all()
-
     return render_template("index.html", data=items)
 
 
-@app.route('/about', methods=['POST', 'GET'])
+@app.route('/support', methods=['POST', 'GET'])
 def support():
     if request.method == "POST":
         name = request.form.get('name')
@@ -176,9 +174,9 @@ def support():
         msg = Message(subject=f"Mail from {name}", body=f"Name: {name}\nE-Mail: {email}\n{message}",
                       sender=mail_username, recipients=['polskoydm@gmail.com,Jiliyahaifa@gmail.com'])
         mail.send(msg)
-        return render_template('about.html', success=True)
+        return render_template('support.html', success=True)
 
-    return render_template('about.html')
+    return render_template('support.html')
 
 
 
@@ -188,11 +186,14 @@ def dashboard():
     if request.method=="POST":
         title = request.form.get('title')
         price = request.form.get('price')
-        photo = save_images(request.files.get('photo'))
         text = request.form.get('text')
+        photo1 = save_images(request.files.get('photo1'))
+        photo2 = save_images(request.files.get('photo2'))
+        photo3 = save_images(request.files.get('photo3'))
+        photo4 = save_images(request.files.get('photo4'))
 
     try:
-        item = Item(title=title, price=price, image=photo, text=text)
+        item = Item(title=title, price=price, text=text, image1=photo1, image2=photo2, image3=photo3, image4=photo4)
         db.session.add(item)
         db.session.commit()
         return redirect('/dashboard')
@@ -205,8 +206,6 @@ def dashboard():
 @app.route('/product/<id>')
 def product(id):
     item = Item.query.filter_by(id=id)
-
-
     return render_template('view-product.html', data=item)
 
 if __name__ == "__main__":

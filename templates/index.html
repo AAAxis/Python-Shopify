@@ -7,23 +7,91 @@
 
 {% block body %}
 
+<br><br>
+
  <div class="card-columns">
+
+
     {% for el in data %}
-     <div class="card">
-          <p class="card-text"> <h3>{{ el.title }}</h3>
-          <img   style="width:19rem; height:20rem; center;" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details">
-          <h5 >Rent from {{ el.price }} shekel</h5>
-
-              <button class="center" onclick="window.location.href ='/product/{{el['id']}}';"onclick="window.location.href ='/product/{{el['id']}}';">View</button>
-     </div>
-     <br><br><br>
 
 
+     <div class="flip-card">
+  <div class="flip-card-inner">
+    <div class="flip-card-front">
+        <br>
+         <h3 class="card-text">{{ el.title }}</h3>
 
+
+
+      <img src="{{ url_for('display_image', filename='/'+el.image1) }}" alt="Avatar" style="width:293px;height:250px;">
+         <button class="card-button-top" onclick="window.location.href ='https://wa.me/+972 53-866-6022/?text=Hello';">Book Now</button>
+
+              </div>
+
+    <div class="flip-card-back">
+
+<div style="text-align:center">
+    <br>
+ <h3 class="card-text">{{ el.title }}</h3>
+
+
+</div>
+
+<!-- The four columns -->
+
+<div class="container">
+
+</div>
+  <div style="width=70%;" class="row">
+  <div class="column">
+    <img  src="{{ url_for('display_image', filename='/'+el.image1) }}"  style="width:4rem; height:4rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="{{ url_for('display_image', filename='/'+el.image2) }}"  style="width:4rem; height:4rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="{{ url_for('display_image', filename='/'+el.image3) }}"  style="width:4rem; height:4rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="{{ url_for('display_image', filename='/'+el.image4) }}"  style="width:4rem; height:4rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+
+</div>
+
+  <p style="text-align:center">{{ el.text }}</p>
+  <button class="card-button" onclick="window.location.href ='https://wa.me/+972 53-866-6022/?text=Hello';">From {{el.price}}₪</button>
+</div>
+ </div>
+</div>
 
    {% endfor %}
-   </div>
 
+ </div>
+ </div>
+<div class="background">
 
+<br>
+        <form  method="POST" action="/about">
+        {% if success %}
+          <div class="alert alert-success" role="alert">
+            Your message has been sent successfully!!
+             </div>
+         {% endif %}
+            <h3>GET IN TOUCH</h3>
+        <br>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <br>
+        <br>
 
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        <br>
+        <br>
+
+            <textarea id="message" name="message" rows="4" placeholder="How can we help you?"></textarea>
+        <br>
+<br>
+        <button class="btn btn-primary" type="submit">Send</button>
+
+        </form>
+    <br><br><br>
 {% endblock %}

@@ -6,21 +6,60 @@
 
 {% block body %}
     {% for el in data %}
-<div class="card-columns ">
+<br><br><br>
+<div class="card-columns-view ">
 <div class="card-view">
 
-          <p class="card-text"> <h3>{{ el.title }}</h3>
 
-          <img  style="width:500px; height:450px;" src="{{ url_for('display_image', filename='/'+el.image) }}" alt="Details">
-          <p style="center" >Rent from {{ el.price }} shekel</p>
-            <p style="center" >{{ el.text }}</p>
-    <button class="center" onclick="window.location.href ='https://wa.me/+972535660122/?text=Hello';">Booking</button></div>
 
+<div style="text-align:center">
+  <h2>{{ el.title }}</h2>
+</div>
+
+<!-- The four columns -->
+
+<div class="container">
+  <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+  <img id="expandedImg" style="width:100%">
+  <div id="imgtext"></div>
+</div>
+  <br>
+  <div style="width=70%;" class="row">
+  <div class="column">
+    <img  src="{{ url_for('display_image', filename='/'+el.image1) }}"  style="width:13rem; height:10rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="{{ url_for('display_image', filename='/'+el.image2) }}"  style="width:13rem; height:10rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="{{ url_for('display_image', filename='/'+el.image3) }}"  style="width:13rem; height:10rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="{{ url_for('display_image', filename='/'+el.image4) }}"  style="width:13rem; height:10rem; object-fit: cover;" onclick="myFunction(this);">
+  </div>
 
 </div>
 
-
+  <p style="text-align:center">{{ el.text }}</p>
 <br>
+  <button class="center" onclick="window.location.href ='https://wa.me/+972535660122/?text=Hello';">Booking</button>
+</div>
+  </div>
+
+<br><br>
+
+
    {% endfor %}
+
+<script>
+function myFunction(imgs) {
+  var expandImg = document.getElementById("expandedImg");
+  var imgText = document.getElementById("imgtext");
+  expandImg.src = imgs.src;
+  imgText.innerHTML = imgs.alt;
+  expandImg.parentElement.style.display = "block";
+}
+</script>
+
 
 {% endblock %}
